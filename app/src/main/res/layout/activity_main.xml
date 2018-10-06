@@ -19,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.561"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@mipmap/ic_iconhumano" />
+        app:srcCompat="@mipmap/ic_icon_humano" />
 
     <EditText
         android:id="@+id/editText2"
