@@ -10,6 +10,7 @@ import retrofit2.http.POST;
 public interface APIInterface {
 
     @FormUrlEncoded
-    @POST("moblie/login.php")
+    @POST("api/login.php")
     Call<UserModel>getLogin(@Field("username") String username,@Field("password") String password);
+
 }

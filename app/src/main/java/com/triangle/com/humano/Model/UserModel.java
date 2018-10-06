@@ -19,6 +19,7 @@ public class UserModel {
         this.name   = name;
         this.sname  = sname;
         this.emcode = emcode;
+        this.token  = token;
     }
 
     public String getId() { return id; }
