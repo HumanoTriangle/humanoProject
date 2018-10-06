@@ -1,5 +1,6 @@
 package com.triangle.com.humano.Scences;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 saveSharePref(response.body());
                 readSharePref();
+                startNavigationDrawer();
             }
 
             @Override
@@ -107,5 +109,10 @@ public class MainActivity extends AppCompatActivity {
         String json = mPrefs.getString("userPref", "");
         UserModel userModel = gson.fromJson(json, UserModel.class);
         Toast.makeText(MainActivity.this,userModel.getToken(),Toast.LENGTH_SHORT).show();
+    }
+
+    private void startNavigationDrawer() {
+        Intent intent = new Intent(MainActivity.this,NavigationDrawerActivity.class);
+        startActivity(intent);
     }
 }

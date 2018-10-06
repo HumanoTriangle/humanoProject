@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--<item android:title="User">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/profile"-->
+
+                <!--android:title="Profile" />-->
+        <!--</menu>-->
+    <!--</item>-->
+    <!--<item android:title="HROD Dashboard" >-->
+        <!--<menu >-->
+            <!--<item android:title="Information"-->
+
+                <!--android:id="@+id/income"></item>-->
+            <!--<item android:title="Performance"-->
+
+                <!--android:id="@+id/testmenu1" />-->
+            <!--<item android:title="Human develop"-->
+
+                <!--android:id="@+id/hu" />-->
+            <!--<item android:title="Costing"-->
+
+                <!--android:id="@+id/costing" />-->
+        <!--</menu>-->
+    <!--</item>-->
+    <!--<item android:title="Other services">-->
+        <!--<menu>-->
+            <!--<item-->
+                <!--android:id="@+id/ons"-->
+
+                <!--android:title="On-site services" />-->
+            <!--<item-->
+                <!--android:id="@+id/cloud"-->
+
+                <!--android:title="Cloud" />-->
+            <!--<item-->
+                <!--android:id="@+id/hp"-->
+
+                <!--android:title="Help and feedback" />-->
+            <!--<item-->
+                <!--android:id="@+id/logout"-->
+
+                <!--android:title="Logout" />-->
+        <!--</menu>-->
+    <!--</item>-->
+    <item
+        android:id="@+id/profile"
+        android:title="Profile" />
+    <item
+        android:id="@+id/feed"
+        android:title="New Feed" />
+</menu>
