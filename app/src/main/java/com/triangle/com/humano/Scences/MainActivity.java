@@ -1,8 +1,8 @@
 package com.triangle.com.humano.Scences;
 
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -11,10 +11,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import okhttp3.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 
+import com.google.gson.Gson;
 import com.triangle.com.humano.Interface.APIInterface;
 import com.triangle.com.humano.Model.UserModel;
 import com.triangle.com.humano.Network.RetrofitInstance;
@@ -80,8 +80,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserModel> call, retrofit2.Response<UserModel> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                String id = response.body().getId();
-                Toast.makeText(MainActivity.this,id,Toast.LENGTH_SHORT).show();
+                saveSharePref(response.body());
+                readSharePref();
             }
 
             @Override
@@ -90,5 +90,22 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this,"Fail",Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveSharePref(UserModel model) {
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(model);
+        prefsEditor.putString("userPref", json);
+        prefsEditor.commit();
+    }
+
+    private void readSharePref() {
+        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = mPrefs.getString("userPref", "");
+        UserModel userModel = gson.fromJson(json, UserModel.class);
+        Toast.makeText(MainActivity.this,userModel.getToken(),Toast.LENGTH_SHORT).show();
     }
 }
