@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="HUMANO"
+        android:text="SIGN IN"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,7 +88,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:textColor="@color/colorWhite"
-        android:text="Copyright © 2018. Power by Triangle Soft Co.,Ltd."
+        android:text="COPYRIGHT © 2018. POWER BY Triangle Soft Co.,Ltd."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
