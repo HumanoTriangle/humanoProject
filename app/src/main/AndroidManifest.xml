@@ -3,6 +3,7 @@
     package="com.triangle.com.humano">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -29,8 +30,9 @@
         <!-- MainActivity -->
         <activity
             android:name=".Scences.MainActivity"
-            android:label="@string/app_name"></activity>
-        <activity android:name=".Scences.NavigationDrawerActivity"></activity>
+            android:label="@string/app_name" />
+        <activity android:name=".Scences.NavigationDrawerActivity" />
+        <activity android:name=".Scences.QRScannerActivity"></activity>
     </application>
 
 </manifest>
