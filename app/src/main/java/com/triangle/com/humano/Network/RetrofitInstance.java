@@ -1,19 +1,26 @@
 package com.triangle.com.humano.Network;
 
+import android.app.Application;
+import android.content.Context;
+import android.widget.Toast;
+
+import com.triangle.com.humano.Helper.Helper;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitInstance {
-    private static Retrofit retrofit;
-    private static final String BASE_URL = "http://192.168.1.90:8091";
 
+    private static Retrofit retrofit;
     /**
      * Create an instance of Retrofit object
      * */
-    public static Retrofit getRetrofitInstance() {
+    public static Retrofit getRetrofitInstance(Context context) {
+        Helper helper = new Helper(context);
+        String baseURL = helper.getHostData();
         if (retrofit == null) {
             retrofit = new retrofit2.Retrofit.Builder()
-                    .baseUrl(BASE_URL)
+                    .baseUrl("http://"+baseURL+"/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
         }

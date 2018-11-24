@@ -45,10 +45,6 @@ public class NavigationDrawerActivity extends AppCompatActivity {
                     case R.id.feed:
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         FeedFragment feedFragment = new FeedFragment();
-//                        Bundle bundletf = new Bundle();
-//                        bundletf.putString("keycorp", keycorp);
-//                        bundletf.putString("corp", corp);
-//                        feedFragment.setArguments(bundletf);
                         fragmentTransaction.replace(R.id.containerView, feedFragment);
                         fragmentTransaction.isAddToBackStackAllowed();
                         fragmentTransaction.addToBackStack(null);

@@ -10,10 +10,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -34,11 +36,12 @@ import com.triangle.com.humano.Model.UserModel;
 import com.triangle.com.humano.Network.RetrofitInstance;
 import com.triangle.com.humano.R;
 
+import java.nio.charset.StandardCharsets;
+
 public class MainActivity extends AppCompatActivity {
-    private Button signInButton;
+    private ImageView signInImageView;
     private ProgressBar progressBar;
     Helper helper;
-    APIInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +55,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupComponent(){
 
-        signInButton = findViewById(R.id.signInButton);
-        apiInterface = RetrofitInstance.getRetrofitInstance().create(APIInterface.class);
-        helper = new Helper();
-        helper.init(getApplicationContext());
+        signInImageView = findViewById(R.id.signInImageView);
+        helper = new Helper(getApplicationContext());
         initProgressBar();
 
 
 
-        signInButton.setOnClickListener(new View.OnClickListener() {
+        signInImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -88,13 +89,16 @@ public class MainActivity extends AppCompatActivity {
     //MARK: Action
 
     private void signInAction(String username, String password) {
+        APIInterface apiInterface = RetrofitInstance
+                .getRetrofitInstance(getApplicationContext())
+                .create(APIInterface.class);
+
         Call<UserModel> call = apiInterface.getLogin(username,password);
 
         call.enqueue(new Callback<UserModel>() {
             @Override
             public void onResponse(Call<UserModel> call, retrofit2.Response<UserModel> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-//                helper.setUserData(response.body());
                 helper.setUserData(response.body());
                 UserModel model = helper.getUserData();
                 Toast.makeText(MainActivity.this, ""+model.getName(),Toast.LENGTH_SHORT).show();
@@ -114,27 +118,21 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==2)
         {
-            String message = data.getStringExtra("MESSAGE");
-            Toast.makeText(MainActivity.this,message,Toast.LENGTH_SHORT).show();
+            if(data != null){
+                String message = data.getStringExtra("MESSAGE");
+                if(message != null && message != ""){
+                    String deCodeString = decodeBase64(message);
+                    System.out.println("Message : "+deCodeString);
+                    String[] separated = deCodeString.split("\\|");
+                    Toast.makeText(MainActivity.this,separated[0],Toast.LENGTH_SHORT).show();
+                    helper.setHostData(separated[0]);
+                    signInAction(separated[1],separated[2]);
+                }
+            }else{
+
+            }
         }
     }
-
-    //    private void saveSharePref(UserModel model) {
-//        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-//        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(model);
-//        prefsEditor.putString("userPref", json);
-//        prefsEditor.commit();
-//    }
-//
-//    private void readSharePref() {
-//        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = mPrefs.getString("userPref", "");
-//        UserModel userModel = gson.fromJson(json, UserModel.class);
-//        Toast.makeText(MainActivity.this,userModel.getToken(),Toast.LENGTH_SHORT).show();
-//    }
 
     private void startNavigationDrawer() {
         Intent intent = new Intent(MainActivity.this,NavigationDrawerActivity.class);
@@ -196,5 +194,11 @@ public class MainActivity extends AppCompatActivity {
         Uri uri = Uri.fromParts("package", getPackageName(), null);
         intent.setData(uri);
         startActivityForResult(intent, 101);
+    }
+
+    private String decodeBase64(String string) {
+        byte[] data = Base64.decode(string, Base64.DEFAULT);
+        String text = new String(data, StandardCharsets.UTF_8);
+        return text;
     }
 }

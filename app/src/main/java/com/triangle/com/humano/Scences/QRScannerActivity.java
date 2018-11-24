@@ -59,4 +59,13 @@ public class QRScannerActivity extends AppCompatActivity {
         codeScanner.releaseResources();
         super.onPause();
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent=new Intent();
+        intent.putExtra("MESSAGE","");
+        setResult(2,intent);
+        finish();
+    }
 }

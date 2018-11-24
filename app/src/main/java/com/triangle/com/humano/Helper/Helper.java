@@ -1,5 +1,6 @@
 package com.triangle.com.humano.Helper;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.widget.Toast;
@@ -8,12 +9,13 @@ import com.google.gson.Gson;
 import com.triangle.com.humano.Model.UserModel;
 import com.triangle.com.humano.Scences.MainActivity;
 
-public class Helper {
+public class Helper extends Application {
+
 
     private static Context prefContext = null;
     public static final String STORAGE_NAME = "ApplicationPrefs";
 
-    public void init(Context context)
+    public Helper(Context context)
     {
         prefContext = context;
     }
@@ -38,4 +40,20 @@ public class Helper {
 
         return userModel;
     }
+
+    public void setHostData(String string) {
+
+        SharedPreferences mPrefs = prefContext.getSharedPreferences(STORAGE_NAME,prefContext.MODE_PRIVATE);
+        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+        prefsEditor.putString("hostPref", string);
+        prefsEditor.commit();
+
+    }
+
+    public String getHostData() {
+        SharedPreferences mPrefs = prefContext.getSharedPreferences(STORAGE_NAME,Context.MODE_PRIVATE);
+        String host = mPrefs.getString("hostPref", "");
+        return host;
+    }
+
 }
