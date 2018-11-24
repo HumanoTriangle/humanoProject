@@ -16,6 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 import com.google.gson.Gson;
+import com.triangle.com.humano.Helper.Helper;
 import com.triangle.com.humano.Interface.APIInterface;
 import com.triangle.com.humano.Model.UserModel;
 import com.triangle.com.humano.Network.RetrofitInstance;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText usernameEditText, passwordEditText;
     private Button signInButton;
     private ProgressBar progressBar;
+    Helper helper;
     APIInterface apiInterface;
 
     @Override
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.passwordEditText);
         signInButton = findViewById(R.id.signInButton);
         apiInterface = RetrofitInstance.getRetrofitInstance().create(APIInterface.class);
+        helper = new Helper();
+        helper.init(getApplicationContext());
         initProgressBar();
 
         signInButton.setOnClickListener(new View.OnClickListener() {
@@ -81,8 +85,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserModel> call, retrofit2.Response<UserModel> response) {
                 progressBar.setVisibility(View.INVISIBLE);
-                saveSharePref(response.body());
-                readSharePref();
+//                helper.setUserData(response.body());
+                helper.setUserData(response.body());
+                UserModel model = helper.getUserData();
+                Toast.makeText(MainActivity.this, ""+model.getName(),Toast.LENGTH_SHORT).show();
                 startNavigationDrawer();
             }
 
@@ -94,22 +100,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void saveSharePref(UserModel model) {
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        SharedPreferences.Editor prefsEditor = mPrefs.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(model);
-        prefsEditor.putString("userPref", json);
-        prefsEditor.commit();
-    }
-
-    private void readSharePref() {
-        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = mPrefs.getString("userPref", "");
-        UserModel userModel = gson.fromJson(json, UserModel.class);
-        Toast.makeText(MainActivity.this,userModel.getToken(),Toast.LENGTH_SHORT).show();
-    }
+//    private void saveSharePref(UserModel model) {
+//        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+//        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(model);
+//        prefsEditor.putString("userPref", json);
+//        prefsEditor.commit();
+//    }
+//
+//    private void readSharePref() {
+//        SharedPreferences mPrefs = getPreferences(MODE_PRIVATE);
+//        Gson gson = new Gson();
+//        String json = mPrefs.getString("userPref", "");
+//        UserModel userModel = gson.fromJson(json, UserModel.class);
+//        Toast.makeText(MainActivity.this,userModel.getToken(),Toast.LENGTH_SHORT).show();
+//    }
 
     private void startNavigationDrawer() {
         Intent intent = new Intent(MainActivity.this,NavigationDrawerActivity.class);
